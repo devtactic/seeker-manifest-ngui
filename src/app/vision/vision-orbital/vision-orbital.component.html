@@ -1,0 +1,8 @@
+<div class="cycle-slideshow">
+  <div class="overlay">
+    <ng-container *ngFor="let tag of visionTags">
+      <app-vision-label [visionTag]="tag"></app-vision-label>
+    </ng-container>
+  </div>
+  <img src="{{visionImgUrl}}">
+</div>
