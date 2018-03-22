@@ -9,8 +9,9 @@ import {VisionKeepAliveService} from "../../core/vision-keepalive.service";
 })
 export class VisionOrbitalComponent implements OnInit {
 
-  vision: string[] = null;
+  vision: string[];
   visionTags: string[] = new Array<string>();
+  visionLocation: string;
 
   constructor(private visionKeepAliveSvc: VisionKeepAliveService) {
   }
@@ -23,9 +24,11 @@ export class VisionOrbitalComponent implements OnInit {
     if (newVision !== null && newVision.length === 3) {
       this.vision = newVision;
       this.visionTags = this.tokenizeTags(this.vision[1]);
+      this.visionLocation = this.vision[2];
     } else {
       this.vision = null;
       this.visionTags = new Array<string>();
+      this.visionLocation = null;
     }
   };
 
@@ -34,7 +37,7 @@ export class VisionOrbitalComponent implements OnInit {
   }
 
   isVisionAvailable(): boolean {
-    return this.vision !== null && this.vision.length === 3;
+    return this.vision != null && this.vision.length === 3;
   }
 
   get visionImgUrl(): string {

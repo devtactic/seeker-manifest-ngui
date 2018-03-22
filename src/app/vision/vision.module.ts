@@ -3,11 +3,13 @@ import {CommonModule} from "@angular/common";
 import {CoreModule} from "../core/core.module";
 import {VisionOrbitalComponent} from "./vision-orbital/vision-orbital.component";
 import {VisionLabelComponent} from './vision-label/vision-label.component';
+import {VisionLocationComponent} from './vision-location/vision-location.component';
 
 @NgModule({
   declarations: [
     VisionLabelComponent,
-    VisionOrbitalComponent
+    VisionOrbitalComponent,
+    VisionLocationComponent
   ],
   imports: [
     CoreModule,
@@ -16,7 +18,8 @@ import {VisionLabelComponent} from './vision-label/vision-label.component';
   providers: [],
   exports: [
     VisionLabelComponent,
-    VisionOrbitalComponent
+    VisionOrbitalComponent,
+    VisionLocationComponent
   ]
 })
 

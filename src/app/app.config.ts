@@ -1,8 +1,8 @@
 export const AppConfig = {
   // Timeout to initial Idle
-  idleTime: 3,
-  // Timeout countdown once idleTime has passed - 2 minutes
+  idleTime: 10,
+  // Timeout countdown once idleTime has passed
   idleTimeout: 5,
-  keepAlivePing: 3,
+  keepAlivePing: 5,
 
 };
