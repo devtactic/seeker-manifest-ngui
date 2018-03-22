@@ -1,2 +1,7 @@
 <a href="http://theseeker.nyethompson.co.uk"><img src="assets/ankh-sym.png" alt="Home" class="homenav"></a>
-<p class="overview">(I) am manifest in <span class="overviewlg">{{visionLocation}}</span> these are (my) Visions</p>
+<div *ngIf="visionLocation == null; else notEmpty">
+  <p class="overview">Preparing my Vision..</p>
+</div>
+<ng-template #notEmpty>
+  <p class="overview">(I) am manifest in <span class="overviewlg">{{visionLocation}}</span> these are (my) Visions</p>
+</ng-template>
