@@ -2,12 +2,12 @@
   <app-vision-location [visionLocation]="visionLocation"></app-vision-location>
 </div>
 
-<div class="background">
-  <img src="{{visionImgUrl}}">
+<div class="background" *ngIf="visionImgData != null">
+  <img [src]="visionImgData">
 </div>
 
 <div class="overlay">
-  <ng-container *ngFor="let tag of visionTags">
-    <app-vision-label [visionTag]="tag"></app-vision-label>
+  <ng-container *ngFor="let tag of visionTags; let last = last;">
+    <app-vision-label [visionTag]="tag"></app-vision-label><span *ngIf="!last"> + </span>
   </ng-container>
 </div>

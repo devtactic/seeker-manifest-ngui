@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 
-@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display|Source+Sans+Pro| Source+Code+Pro');
 
 /* UNIVERSAL */
 
@@ -26,37 +26,40 @@ height: 100%;
 
 
 .overview {
-    font-size: 1.3rem;
-    font-weight: 400;
-    padding: 6px 60px;
+	font-family: 'Playfair Display', serif;
+	font-size: 1.2rem;
+	font-weight: 300;
+	padding: 6px 60px;
 }
 
 .overviewlg {
-    text-transform: uppercase;
-    font-size: 2.2rem;
-    font-weight: 400;
+	text-transform: uppercase;
+	font-size: 1.8rem;
+	font-weight: 400;
+	color: #90e4f9;
 }
 
 .label {
-    text-shadow: 1px 1px 1px black;
-    text-transform: uppercase;
-    text-align: center;
-    font-size: 2.2rem;
-    font-weight: 600;
-    border-radius: 2px;
-    padding: 0px 6px;
-    line-height: 5rem;
-    background: rgba(89, 151, 1, 0.5);
+	text-shadow: 1px 1px 1px black;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 1.6rem;
+	font-weight: 600;
+	border-radius: 1px;
+	padding: 0px 6px;
+	line-height: 4rem;
+	background: rgba(220, 195, 37, 0.2);
+	letter-spacing: 4px;
 }
 
 .overlay {
-    position: fixed;
-    text-align: center;
-    top: 200px;
+	position: fixed;
+	text-align: center;
+	top: 135px;
 	left: 60px;
-    right: 60px;
-    z-index: 600;
-    font-size: 2.5rem;
+	right: 60px;
+	z-index: 600;
+	font-size: 1.4rem;
 }
 
 .homenav{
@@ -71,9 +74,9 @@ height: 100%;
 	height: calc(100% - 72px);
 	/*background: url(http://s3.amazonaws.com/backdoored-io-images/wp-content/uploads/213.153.78.2372017-12-04T123622.035349.jpg) no-repeat;
 	background-size: cover;*/
-	overflow: hidden;	
-	
-	
+	overflow: hidden;
+
+
 	display: flex;
 /*	align-items: start;*/
 	align-items: initial;
@@ -82,5 +85,3 @@ height: 100%;
 .background img {
 	flex: 1;
 }
-
-
