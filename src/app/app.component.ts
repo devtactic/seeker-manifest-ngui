@@ -20,16 +20,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initialiseIdleService();
+    // this.initialiseIdleService();
   }
 
   initialiseIdleService() {
-    // this.idle.setIdle(AppConfig.idleTime);
-    // this.idle.setTimeout(AppConfig.idleTimeout);
-    // this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
-    this.idle.setAutoResume(AutoResume.notIdle);
-    this.keepAlive.interval(AppConfig.keepAlivePing);
-    this.idle.watch();
+    // // this.idle.setIdle(AppConfig.idleTime);
+    // // this.idle.setTimeout(AppConfig.idleTimeout);
+    // // this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
+    // this.idle.setAutoResume(AutoResume.notIdle);
+    // this.keepAlive.interval(AppConfig.keepAlivePing);
+    // this.idle.watch();
   }
 
 }

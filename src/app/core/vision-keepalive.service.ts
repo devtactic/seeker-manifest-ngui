@@ -13,11 +13,11 @@ export class VisionKeepAliveService {
   constructor(private csvUtilsSvc: CsvUtilsService,
               private keepAlive: Keepalive) {
 
-    this.initialiseVisions();
-
-    this.keepAlive.onPing.subscribe(() => {
-      this.refreshVision();
-    });
+    // this.initialiseVisions();
+    //
+    // this.keepAlive.onPing.subscribe(() => {
+    //   this.refreshVision();
+    // });
 
   }
 

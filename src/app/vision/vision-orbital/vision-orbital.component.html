@@ -7,7 +7,7 @@
 </div>
 
 <div class="overlay">
-  <ng-container *ngFor="let tag of visionTags; let last = last;">
+  <ng-container *ngFor="let tag of visionTagsPartial; let last = last;">
     <app-vision-label [visionTag]="tag"></app-vision-label><span *ngIf="!last"> + </span>
   </ng-container>
 </div>
