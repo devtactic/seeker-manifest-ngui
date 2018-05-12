@@ -8,6 +8,6 @@
 
 <div class="overlay">
   <ng-container *ngFor="let tag of visionTagsPartial; let last = last;">
-    <app-vision-label [visionTag]="tag"></app-vision-label><span *ngIf="!last"> + </span>
+    <app-vision-label [visionTag]="tag"></app-vision-label><span class="labeljoin" *ngIf="!last"> + </span>
   </ng-container>
 </div>

@@ -52,6 +52,11 @@ height: 100%;
 	letter-spacing: 4px;
 }
 
+.labeljoin {
+  text-shadow: 1px 3px 2px red;
+  font-size: 1.4rem;
+}
+
 .overlay {
 	position: fixed;
 	text-align: left;
