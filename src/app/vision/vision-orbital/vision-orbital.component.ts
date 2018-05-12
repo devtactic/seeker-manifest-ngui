@@ -41,7 +41,6 @@ export class VisionOrbitalComponent implements OnInit {
       this.tagN = 0;
       this.visionTagsPartial = new Array<string>();
       let newVisionTags = this.tokenizeTags(newVision[1]);
-      console.log(newVision[1]);
       this.preloadVisionImg(newVision[0]).subscribe((imgBlob) => {
           this.visionImgS3Url = newVision[0];
           this.visionImgData = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(imgBlob));
@@ -90,14 +89,11 @@ export class VisionOrbitalComponent implements OnInit {
   }
 
   getVisionDisplayTime(visionTagsNum: number): number {
-    const marginSecs = 3;
+    const marginSecs = 4;
     const tagSecs = visionTagsNum / 4;
     // const overflowSecs = (visionTagsNum % 4) > 0 ? 1 : 0;
     const secsForVision = marginSecs + Math.round(tagSecs);
     return secsForVision >=5 ? secsForVision : 5;
-    // const rtn = secsForVision >=5 ? secsForVision : 5;
-    // console.log('visionDisplayTime: ' + rtn + ' for ' + visionTagsNum + ' tags');
-    // return rtn;
   }
 
   appendPartialTags() {
