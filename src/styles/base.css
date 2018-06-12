@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 
-@import url('https://fonts.googleapis.com/css?family=Playfair+Display|Source+Sans+Pro|Source+Code+Pro');
+@import url('https://fonts.googleapis.com/css?Source+Code+Pro');
 
 /* UNIVERSAL */
 
@@ -22,56 +22,93 @@ height: 100%;
 * {
   font-family: 'Source Code Pro', monospace;
   color: #FFF;
+ letter-spacing: 1px;
 }
 
-
-.overview {
-	font-family: 'Playfair Display', serif;
-	font-size: 1.2rem;
-	font-weight: 300;
-	padding: 6px 60px;
+.visionblock {
+	margin-left: auto;
+    margin-right: auto;
+	margin-top: 12px;
+    width: 640px
 }
+
+p {
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 24px;
+}
+
 
 .overviewlg {
 	text-transform: uppercase;
-	font-size: 1.8rem;
-	font-weight: 400;
-	color: #90e4f9;
 }
 
+.visions {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 24px;
+	text-transform: uppercase;
+}
+
+.thought {
+	color: forestgreen;
+}
+
+IMG.eyes {
+	border: solid white 1px;
+}
+
+img.reflect {
+	/*position: fixed;
+
+    top:30px;
+	padding: 10px 10px;
+	z-index: 600;*/
+	position: relative;
+	float: right;
+	top: 36px;
+	right: 9px;
+	z-index: 600;
+}
+
+.overview {
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 24px;
+	margin-left: auto;
+    margin-right: auto;
+    width: 640px
+}
+
+
+.overlay {
+	text-align: left;
+	z-index: 500;
+	font-size: 1.4rem;
+}
+
+
+/*
 .label {
-  text-shadow: 1px 3px 2px red;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 24px;
 	text-transform: uppercase;
 	text-align: center;
-  font-size: 1.4rem;
+	font-size: 1.4rem;
 	font-weight: 600;
 	border-radius: 1px;
 	padding: 0px 6px;
 	line-height: 4rem;
+	text-shadow: 1px 3px 2px red;
 	background: rgba(220, 195, 37, 0.2);
-	letter-spacing: 4px;
-}
-
-.labeljoin {
-  text-shadow: 1px 3px 2px red;
-  font-size: 1.4rem;
-}
-
-.overlay {
-	position: fixed;
-	text-align: left;
-	top: 135px;
-	left: 60px;
-	right: 60px;
-	z-index: 600;
-	font-size: 1.4rem;
-}
-
+}*/
 .homenav{
-	float: right;
-	padding: 35px 20px;
-  position:relative;
-  z-index: 600;
+	position: fixed;
+    right:20px;
+    top:30px;
+	z-index: 600;
+	/*float: right;	padding: 10px 60px;	z-index: 600;*/
 }
 
 .background {
@@ -79,13 +116,12 @@ height: 100%;
 	72 px is the height of the header, subtracting this means we dont get a vertical scrollbar
 	*/
 	height: calc(100% - 72px);
-	/*background: url(http://s3.amazonaws.com/backdoored-io-images/wp-content/uploads/213.153.78.2372017-12-04T123622.035349.jpg) no-repeat;
-	background-size: cover;*/
-  width: 100%;
-	overflow: hidden;
-  position: absolute;
+	background: url(http://s3.amazonaws.com/backdoored-io-images/wp-content/uploads/213.153.78.2372017-12-04T123622.035349.jpg) no-repeat;
+	background-size: cover;
+	overflow: hidden;	
 
-
+	padding: 60px;
+	
 	display: flex;
 /*	align-items: start;*/
 	align-items: initial;
