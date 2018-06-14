@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 
-@import url('https://fonts.googleapis.com/css?Source+Code+Pro');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
 
 /* UNIVERSAL */
 
@@ -68,7 +68,7 @@ p {
 	50% {opacity: 0.8;}
 	75% {opacity: 1}
 	100% {opacity: 0.8}
-	
+
 }*/
 
 IMG.eyes {
@@ -130,10 +130,10 @@ img.reflect {
 	height: calc(100% - 72px);
 	background: url(http://s3.amazonaws.com/backdoored-io-images/wp-content/uploads/213.153.78.2372017-12-04T123622.035349.jpg) no-repeat;
 	background-size: cover;
-	overflow: hidden;	
+	overflow: hidden;
 
 	padding: 60px;
-	
+
 	display: flex;
 /*	align-items: start;*/
 	align-items: initial;
