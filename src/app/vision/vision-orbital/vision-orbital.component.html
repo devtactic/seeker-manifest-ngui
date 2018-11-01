@@ -1,12 +1,10 @@
-<div class="header">
+<div class="visionblock">
   <app-vision-location [visionLocation]="visionLocation"></app-vision-location>
-</div>
 
-<div class="background" *ngIf="visionImgData != null">
-  <img [src]="visionImgData">
-</div>
 
-<div class="overlay">
+<div *ngIf="visionImgData != null">
+  <img class="eyes" [src]="visionImgData">
+<p class="thought">&laquo;Here. And Now. My Eyes See.&raquo;</p>
   <ng-container *ngFor="let tag of visionTagsPartial; let last = last;">
     <app-vision-label [visionTag]="tag"></app-vision-label><span class="labeljoin" *ngIf="!last"> + </span>
   </ng-container>

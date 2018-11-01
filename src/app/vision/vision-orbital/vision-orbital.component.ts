@@ -38,11 +38,13 @@ export class VisionOrbitalComponent implements OnInit {
 
   handleVisionChanged = (newVision: string[]) => {
     if (this.isVisionAvailable(newVision)) {
-      this.tagN = 0;
-      this.visionTagsPartial = new Array<string>();
+      // this.tagN = 0;
+      // this.visionTagsPartial = new Array<string>();
       let newVisionTags = this.tokenizeTags(newVision[1]);
       this.preloadVisionImg(newVision[0]).subscribe((imgBlob) => {
-          this.visionImgS3Url = newVision[0];
+          this.tagN = 0;
+          this.visionTagsPartial = new Array<string>();
+        this.visionImgS3Url = newVision[0];
           this.visionImgData = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(imgBlob));
           this.visionTags = newVisionTags;
 
@@ -57,7 +59,8 @@ export class VisionOrbitalComponent implements OnInit {
           this.visionLocation = newVision[2];
           setTimeout(() => {
             this.appendPartialTags();
-          }, 1500);
+          // }, 1500);
+          }, 250);
 
         },
         (err: any) => {
@@ -89,22 +92,44 @@ export class VisionOrbitalComponent implements OnInit {
   }
 
   getVisionDisplayTime(visionTagsNum: number): number {
-    const marginSecs = 4;
-    const tagSecs = visionTagsNum / 4;
-    // const overflowSecs = (visionTagsNum % 4) > 0 ? 1 : 0;
-    const secsForVision = marginSecs + Math.round(tagSecs);
-    return secsForVision >=5 ? secsForVision : 5;
+    return 1;
   }
 
   appendPartialTags() {
+    const nextTagAfter = 0.5 / (this.visionTags.length);
     if (this.tagN < this.visionTags.length) {
       setTimeout(() => {
         this.visionTagsPartial.push(this.visionTags[this.tagN])
         this.tagN++;
         this.appendPartialTags();
-      }, 250)
+      }, nextTagAfter * 1000)
     }
   }
+
+  // scheduleCycleVision(visionDisplayTime: number) {
+  //   setTimeout(() => {
+  //     this.visionKeepAliveSvc.refreshVision();
+  //     this.handleVisionChanged(this.visionKeepAliveSvc.vision);
+  //   }, visionDisplayTime * 1000);
+  // }
+  //
+  // getVisionDisplayTime(visionTagsNum: number): number {
+  //   const marginSecs = 4;
+  //   const tagSecs = visionTagsNum / 4;
+  //   // const overflowSecs = (visionTagsNum % 4) > 0 ? 1 : 0;
+  //   const secsForVision = marginSecs + Math.round(tagSecs);
+  //   return secsForVision >=5 ? secsForVision : 5;
+  // }
+  //
+  // appendPartialTags() {
+  //   if (this.tagN < this.visionTags.length) {
+  //     setTimeout(() => {
+  //       this.visionTagsPartial.push(this.visionTags[this.tagN])
+  //       this.tagN++;
+  //       this.appendPartialTags();
+  //     }, 250)
+  //   }
+  // }
 
   tokenizeTags(tagStr: string) {
     return tagStr.split(' + ');
