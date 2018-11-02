@@ -1,7 +1,7 @@
 @charset "utf-8";
-/* CSS Document */
+/* CSS Document*/
 
-@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic|Nova+Mono|Source+Code+Pro');
 
 /* UNIVERSAL */
 
@@ -20,16 +20,14 @@ height: 100%;
 
 
 * {
-  font-family: 'Source Code Pro', monospace;
-  color: #FFF;
- letter-spacing: 1px;
+ color: #FFF;
 }
 
 .visionblock {
 	margin-left: auto;
     margin-right: auto;
-	margin-top: 12px;
-    width: 640px
+/*	margin-top: 12px;
+    width: 640px*/
 }
 
 @keyframes fadein {
@@ -38,9 +36,9 @@ height: 100%;
 }
 
 p {
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 24px;
+ font-size: 1.2rem;
+    font-weight: 200;
+  	font-family: 'Lato', Helvetica, sans-serif;
 	-webkit-animation: fadein 2s;
 }
 
@@ -50,10 +48,16 @@ p {
 }
 
 .visions {
-	font-size: 16px;
-	font-weight: 400;
-	line-height: 24px;
-	text-transform: uppercase;
+	color: white;
+	text-shadow:  1px 1px 1px black;
+	font-family: 'Nova Mono', monospace;
+	text-align: center;
+  	font-size: 1rem;
+	font-weight: 300;
+	padding: 4px;
+	line-height: 2.5rem;
+	border-radius: 0px;
+    background: rgba(0, 255, 255, 0.5); /* aqua background with 0.5 opacity */
 }
 
 .thought {
@@ -72,15 +76,16 @@ p {
 }*/
 
 IMG.eyes {
-	border: solid white 1px;
+	width: 100%; 
+	height: auto;
 }
 
 img.reflect {
-	position: relative;
-	float: right;
-	top: 36px;
-	right: 4px;
-	z-index: 600;
+/*	position: static;
+    top: 10px;
+	z-index: 5000;
+    float: right;*/
+	padding: 20px 0px;
 }
 
 .overview {
@@ -94,9 +99,11 @@ img.reflect {
 
 
 .overlay {
-	text-align: left;
-	z-index: 500;
-	font-size: 1.4rem;
+	position: fixed;
+	text-align: right;
+    top: 100px;
+	right: 60px;
+	z-index: 600;
 }
 
 
@@ -141,4 +148,9 @@ img.reflect {
 
 .background img {
 	flex: 1;
+}
+
+.intro{
+	color: #DBDBDB;
+
 }

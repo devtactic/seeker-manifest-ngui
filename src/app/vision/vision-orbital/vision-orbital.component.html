@@ -3,9 +3,13 @@
 
 
 <div *ngIf="visionImgData != null">
+			  
   <img class="eyes" [src]="visionImgData">
-<p class="thought">&laquo;Here. And Now. My Eyes See.&raquo;</p>
+<div class="overlay">
+	<a href="http://theseeker.nyethompson.co.uk"><img src="assets/ankh-sym.png" alt="Home" class="reflect"></a>
+	
+	<p><span class="intro">(in the dark)<br/>&laquo;I&raquo; see the Universe<br/>this is &laquo;my&raquo; Vision</span><br/></p>
   <ng-container *ngFor="let tag of visionTagsPartial; let last = last;">
-    <app-vision-label [visionTag]="tag"></app-vision-label><span class="labeljoin" *ngIf="!last"> + </span>
-  </ng-container>
+    <app-vision-label [visionTag]="tag"></app-vision-label><span class="labeljoin" *ngIf="!last"><br> +  </span>
+  </ng-container></div>
 </div>
