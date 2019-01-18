@@ -20,6 +20,7 @@ export class VisionOrbitalComponent implements OnInit {
   visionTagsPartial: string[] = new Array<string>();
   visionLocation: string;
   tagN: number;
+  imgCache: Map<string, Blob> = new Map<string, Blob>();
 
   constructor(private httpClient: HttpClient,
               private sanitizer: DomSanitizer,
@@ -36,37 +37,51 @@ export class VisionOrbitalComponent implements OnInit {
     }, 3000);
   }
 
+  doVisionChange(newVision: string[]) {
+    this.tagN = 0;
+    this.visionTagsPartial = new Array<string>();
+    const newVisionTags = this.tokenizeTags(newVision[1]);
+    this.visionImgS3Url = newVision[0];
+    // this.visionImgData = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(imgBlob));
+    const imgData = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(this.imgCache.get(this.visionImgS3Url)));
+    this.visionImgData = imgData;
+    this.visionTags = newVisionTags;
+
+    // mock img url for local test data
+    // if (~~(Math.random() * 1000000) % 2 === 0) {
+    //   this.vision[0] = './assets/testImage01.jpg';
+    // } else {
+    //   this.vision[0] = './assets/testImage02.jpg';
+    // }
+
+    this.scheduleCycleVision(this.getVisionDisplayTime(this.visionTags.length));
+    if (newVision.length > 2) {
+      this.visionLocation = newVision[2];
+    }
+    // if we want to append the tags one by one with a delay:
+    // setTimeout(() => {
+    //   this.appendPartialTags();
+    // // }, 1500);
+    // }, 250);
+
+    // or to append all tags immediately:
+    this.appendAllTags();
+  }
+
   handleVisionChanged = (newVision: string[]) => {
     if (this.isVisionAvailable(newVision)) {
-      // this.tagN = 0;
-      // this.visionTagsPartial = new Array<string>();
-      let newVisionTags = this.tokenizeTags(newVision[1]);
-      this.preloadVisionImg(newVision[0]).subscribe((imgBlob) => {
-          this.tagN = 0;
-          this.visionTagsPartial = new Array<string>();
-        this.visionImgS3Url = newVision[0];
-          this.visionImgData = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(imgBlob));
-          this.visionTags = newVisionTags;
-
-          // mock img url for local test data
-          // if (~~(Math.random() * 1000000) % 2 === 0) {
-          //   this.vision[0] = './assets/testImage01.jpg';
-          // } else {
-          //   this.vision[0] = './assets/testImage02.jpg';
-          // }
-
-          this.scheduleCycleVision(this.getVisionDisplayTime(this.visionTags.length));
-          this.visionLocation = newVision[2];
-          setTimeout(() => {
-            this.appendPartialTags();
-          // }, 1500);
-          }, 250);
-
-        },
-        (err: any) => {
-          console.error(err);
-        }
-      );
+      if (this.imgCache.has(newVision[0])) {
+        this.doVisionChange(newVision);
+      } else {
+        this.preloadVisionImg(newVision[0]).subscribe((imgBlob) => {
+            this.imgCache.set(newVision[0], imgBlob);
+            this.doVisionChange(newVision)
+          },
+          (err: any) => {
+            console.error(err);
+          }
+        );
+      }
     } else {
       this.visionImgS3Url = null;
       this.visionImgData = null;
@@ -88,11 +103,16 @@ export class VisionOrbitalComponent implements OnInit {
     setTimeout(() => {
       this.visionKeepAliveSvc.refreshVision();
       this.handleVisionChanged(this.visionKeepAliveSvc.vision);
-    }, visionDisplayTime * 1000);
+    }, visionDisplayTime * 150);
   }
 
   getVisionDisplayTime(visionTagsNum: number): number {
+    // return visionTagsNum;
     return 1;
+  }
+
+  appendAllTags() {
+    this.visionTagsPartial = this.visionTags;
   }
 
   appendPartialTags() {
@@ -136,8 +156,7 @@ export class VisionOrbitalComponent implements OnInit {
   }
 
   isVisionAvailable(vision: string[]): boolean {
-    return vision != null && vision.length === 3;
+    return vision != null && vision.length >= 2;
   }
 
 }
-
