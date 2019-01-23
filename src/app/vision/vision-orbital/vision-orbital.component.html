@@ -14,7 +14,7 @@
       </p>
       <ng-container *ngFor="let tag of visionTagsPartial; let last = last;">
         <app-vision-label [visionTag]="tag"></app-vision-label>
-        <span class="labeljoin" *ngIf="!last"><br> +  </span>
+        <span class="labeljoin" *ngIf="!last"> + </span>
       </ng-container>
     </div>
   </div>
