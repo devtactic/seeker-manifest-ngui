@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CommonModule} from "@angular/common";
+import {RouterModule} from '@angular/router';
 import {CoreModule} from "../core/core.module";
 import {VisionOrbitalComponent} from "./vision-orbital/vision-orbital.component";
 import {VisionLabelComponent} from './vision-label/vision-label.component';
@@ -17,6 +18,7 @@ import {VisionLocationComponent} from './vision-location/vision-location.compone
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
+    RouterModule,
     CommonModule
   ],
   providers: [],

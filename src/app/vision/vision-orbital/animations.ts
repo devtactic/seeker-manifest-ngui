@@ -5,7 +5,7 @@ export const fadeVision = [
     state('in', style({ 'opacity': '1' })),
     state('out', style({ 'opacity': '0' })),
     transition('* <=> *', [
-      animate(4000)
+      animate('{{ fadeTime }}')
     ])
   ])
 ];

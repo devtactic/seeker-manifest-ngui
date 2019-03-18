@@ -2,12 +2,16 @@
   <!--<app-vision-location [visionLocation]="visionLocation"></app-vision-location>-->
 
 
-  <div *ngIf="visionImgData != null">
+  <div>
 
-    <img [@fadeVisionTrigger]="state"
-         (@fadeVisionTrigger.done)="onTransitionStart($event)"
+    <img style="position: absolute; top:0px; left: 0px;"
+         [@fadeVisionTrigger]="{value:stateOne,params:{fadeTime:visionFadeTime}}"
          (@fadeVisionTrigger.done)="onTransitionDone($event)"
-         class="eyes" [src]="visionImgData">
+         class="eyes" [src]="visionImgOneData">
+
+    <img style="position: absolute; top:0px; left: 0px;"
+         [@fadeVisionTrigger]="{value:stateTwo,params:{fadeTime:visionFadeTime}}"
+         class="eyes" [src]="visionImgTwoData">
 
     <!--<div class="overlay">-->
       <!--<a href="http://theseeker.nyethompson.co.uk"><img src="assets/ankh-sym.png" alt="Home" class="reflect"></a>-->

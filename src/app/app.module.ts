@@ -1,6 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
 
 import {CoreModule} from "./core/core.module";
@@ -16,6 +17,7 @@ import {VisionModule} from "./vision/vision.module";
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
+    RouterModule.forRoot([]),
     NgIdleKeepaliveModule.forRoot(),
     VisionModule
   ],

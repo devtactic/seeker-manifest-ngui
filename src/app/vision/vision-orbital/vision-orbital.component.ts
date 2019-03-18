@@ -1,8 +1,9 @@
 import {AnimationTransitionEvent, Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {VisionKeepAliveService} from "../../core/vision-keepalive.service";
+import {ActivatedRoute, Params} from '@angular/router';
+import {DomSanitizer} from '@angular/platform-browser';
 import {Observable} from "rxjs/Observable";
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import {VisionKeepAliveService} from "../../core/vision-keepalive.service";
 import {fadeVision} from './animations';
 
 @Component({
@@ -13,32 +14,121 @@ import {fadeVision} from './animations';
 })
 export class VisionOrbitalComponent implements OnInit {
 
-  visionImgS3Url: string;
-  visionImgData: any;
-  // visionTags: string[] = new Array<string>();
-  // visionTagsPartial: string[] = new Array<string>();
-  // visionLocation: string;
-  // tagN: number;
+  visionImgOneS3Url: string;
+  visionImgTwoS3Url: string;
+  visionImgOneData: any;
+  visionImgTwoData: any;
   imgCache: Map<string, Blob> = new Map<string, Blob>();
-  state = 'in';
-  counter = 0;
+  stateOne = 'in';
+  stateTwo = 'out';
+  visionFadeTime = '2500ms';
+  visionHoldTime = 20000;
   enableAnimation = false;
-  newVisionToFade: string[];
+  defaultImgBlobBase64Data = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
 
   constructor(private httpClient: HttpClient,
               private sanitizer: DomSanitizer,
+              private activatedRoute: ActivatedRoute,
               private visionKeepAliveSvc: VisionKeepAliveService) {
   }
 
   ngOnInit() {
-    // this.visionKeepAliveSvc.onVisionChange.subscribe(this.handleVisionChanged);
+    // set transparent tiny img src until seeker images are loaded
+    this.visionImgOneData = this.defaultImgBlobBase64Data;
+    this.visionImgTwoData = this.defaultImgBlobBase64Data;
+
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      const fadeTimeParam = params['fadeTime'];
+      if (fadeTimeParam) {
+        this.visionFadeTime = fadeTimeParam + 'ms';
+        // console.log('set vision fade time: ' + this.visionFadeTime);
+      }
+      const holdTimeParam = params['holdTime'];
+      if (holdTimeParam) {
+        this.visionHoldTime = holdTimeParam;
+        // console.log('set vision hold time: ' + this.visionHoldTime + 'ms');
+      }
+    });
 
     // timeout for now, but should subscribe to event if not using keepAlive ping
     setTimeout(() => {
       this.visionKeepAliveSvc.initialiseVisions();
-      this.visionImgData = {};
       this.handleVisionChanged(this.visionKeepAliveSvc.vision);
     }, 3000);
+  }
+
+  handleVisionChanged = (newVision: string[]) => {
+    if (this.isVisionAvailable(newVision)) {
+      if (this.imgCache.has(newVision[0])) {
+        this.startVisionChange(newVision);
+      } else {
+        this.preloadVisionImg(newVision[0]).subscribe((imgBlob) => {
+            this.imgCache.set(newVision[0], imgBlob);
+            this.startVisionChange(newVision);
+          },
+          (err: any) => {
+            console.error(err);
+          }
+        );
+      }
+    } else {
+      console.log('error - no vision available');
+      this.visionImgOneS3Url = null;
+      this.visionImgOneData = null;
+      this.visionImgTwoS3Url = null;
+      this.visionImgTwoData = null;
+    }
+  };
+
+  preloadVisionImg(imgS3Url: string): Observable<Blob> {
+    return this.httpClient
+      .get(imgS3Url, {
+        responseType: "blob"
+      });
+  }
+
+  scheduleCycleVision(visionDisplayTime: number) {
+    setTimeout(() => {
+      this.visionKeepAliveSvc.refreshVision();
+      this.handleVisionChanged(this.visionKeepAliveSvc.vision);
+    }, visionDisplayTime);
+  }
+
+  startVisionChange(newVision: string[]) {
+    this.enableAnimation = true;
+    if (this.stateOne === 'in' && this.stateTwo === 'out') {
+      this.visionImgTwoS3Url = newVision[0];
+      this.visionImgTwoData = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(this.imgCache.get(this.visionImgTwoS3Url)));
+      // console.log('img2 now: ' + this.visionImgTwoS3Url);
+    } else if (this.stateOne === 'out' && this.stateTwo === 'in') {
+      this.visionImgOneS3Url = newVision[0];
+      this.visionImgOneData = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(this.imgCache.get(this.visionImgOneS3Url)));
+      // console.log('img1 now: ' + this.visionImgOneS3Url);
+    }
+    this.toggleState();
+  }
+
+  completeVisionChange() {
+    this.scheduleCycleVision(this.visionHoldTime);
+  }
+
+  toggleState() {
+    this.stateOne = this.stateOne === 'in' ? 'out' : 'in';
+    this.stateTwo = this.stateTwo === 'in' ? 'out' : 'in';
+  }
+
+  onTransitionStart(event) {
+  }
+
+  onTransitionDone(event) {
+    if (this.enableAnimation) {
+      this.completeVisionChange();
+    }
+  }
+
+  isVisionAvailable(vision: string[]): boolean {
+    return vision != null && vision.length >= 2;
   }
 
   // doVisionChange(newVision: string[]) {
@@ -72,107 +162,6 @@ export class VisionOrbitalComponent implements OnInit {
   //   // or to append all tags immediately:
   //   // this.appendAllTags();
   // }
-
-  handleVisionChanged = (newVision: string[]) => {
-    if (this.isVisionAvailable(newVision)) {
-      console.log('vision available');
-      if (this.imgCache.has(newVision[0])) {
-        // this.doVisionChange(newVision);
-        console.log('using cached image');
-        this.startVisionChange(newVision);
-      } else {
-        this.preloadVisionImg(newVision[0]).subscribe((imgBlob) => {
-            this.imgCache.set(newVision[0], imgBlob);
-            console.log('fetched, now using cached image');
-            // this.doVisionChange(newVision);
-            this.startVisionChange(newVision);
-          },
-          (err: any) => {
-            console.error(err);
-          }
-        );
-      }
-    } else {
-      console.log('error - no vision available');
-      this.visionImgS3Url = null;
-      this.visionImgData = null;
-      // this.tagN = 0;
-      // this.visionTags = new Array<string>();
-      // this.visionTagsPartial = new Array<string>();
-      // this.visionLocation = null;
-    }
-  };
-
-  preloadVisionImg(imgS3Url: string): Observable<Blob> {
-    return this.httpClient
-      .get(imgS3Url, {
-        responseType: "blob"
-      });
-  }
-
-  scheduleCycleVision(visionDisplayTime: number) {
-    setTimeout(() => {
-      this.visionKeepAliveSvc.refreshVision();
-      this.handleVisionChanged(this.visionKeepAliveSvc.vision);
-    }, visionDisplayTime * 20000);
-  }
-
-  startVisionChange(newVision: string[]) {
-    console.log('startVisionChange');
-    this.newVisionToFade = newVision;
-    console.log(this.newVisionToFade);
-    this.enableAnimation = true;
-    this.counter = 0;
-    this.toggleState();
-  }
-
-  completeVisionChange() {
-    this.visionImgS3Url = this.newVisionToFade[0];
-    const imgData = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(this.imgCache.get(this.visionImgS3Url)));
-    this.visionImgData = imgData;
-    this.scheduleCycleVision(1);
-  }
-
-  // https://github.com/felixrieseberg/windows-build-tools/issues/56
-  // https://github.com/JeremyEnglert/JointsWP/issues/317
-  // https://stackoverflow.com/questions/47538186/animate-an-image-swap-in-angular-4-was-ng-animate-swap-in-angularjs
-  // toggleImg() {
-  //   if (this.choice === 1) {
-  //     this.imageSource = this.imgSrc1;
-  //     this.choice = 2;
-  //   } else {
-  //     this.imageSource = this.imgSrc2;
-  //     this.choice = 1;
-  //   }
-  // }
-
-  onTransitionStart(event) {
-    console.log('onTransitionStart');
-  }
-
-  onTransitionDone(event) {
-    console.log('onTransitionDone');
-    if (this.enableAnimation) {
-      console.log('enableAnimation');
-      if (this.counter === 1) {
-        console.log('calling completeVisionChange');
-        this.completeVisionChange();
-      }
-      this.toggleState();
-    }
-  }
-
-  toggleState() {
-    console.log('toggling - counter: ' + this.counter);
-    if (this.counter < 2) {
-      this.state = this.state === 'in' ? 'out' : 'in';
-      console.log('toggled - state: ' + this.state);
-      this.counter++;
-      // setTimeout(() => {
-      //   this.onTransitionDone({});
-      // },  2000);
-    }
-  }
 
   // getVisionDisplayTime(visionTagsNum: number): number {
   //   // return visionTagsNum;
@@ -222,9 +211,5 @@ export class VisionOrbitalComponent implements OnInit {
   // tokenizeTags(tagStr: string) {
   //   return tagStr.split(' + ');
   // }
-
-  isVisionAvailable(vision: string[]): boolean {
-    return vision != null && vision.length >= 2;
-  }
 
 }
