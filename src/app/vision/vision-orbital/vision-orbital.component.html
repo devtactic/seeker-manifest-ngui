@@ -4,13 +4,11 @@
 
   <div>
 
-    <img style="position: absolute; top:0px; left: 0px;"
-         [@fadeVisionTrigger]="{value:stateOne,params:{fadeTime:visionFadeTime}}"
+    <img [@fadeVisionTrigger]="{value:stateOne,params:{fadeTime:visionFadeTime}}"
          (@fadeVisionTrigger.done)="onTransitionDone($event)"
          class="eyes" [src]="visionImgOneData">
 
-    <img style="position: absolute; top:0px; left: 0px;"
-         [@fadeVisionTrigger]="{value:stateTwo,params:{fadeTime:visionFadeTime}}"
+    <img [@fadeVisionTrigger]="{value:stateTwo,params:{fadeTime:visionFadeTime}}"
          class="eyes" [src]="visionImgTwoData">
 
     <!--<div class="overlay">-->
