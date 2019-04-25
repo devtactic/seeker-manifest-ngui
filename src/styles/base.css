@@ -49,15 +49,17 @@ p {
 
 .visions {
 	color: white;
-	text-shadow:  1px 1px 1px black;
-	font-family: 'Nova Mono', monospace;
+	text-shadow:  1px 1px 1px #aa0000;
+	font-family: Times New Roman, serif;
 	text-align: center;
-  	font-size: 1rem;
-	font-weight: 300;
-	padding: 4px;
-	line-height: 2.5rem;
-	border-radius: 0px;
-    background: rgba(4, 229, 237, 0.5); /* aqua background with 0.5 opacity */
+  	font-size: 1.1rem;
+	font-weight: 200;
+	padding-top: 2px;
+	line-height: 2.0rem;
+	border-radius: 1px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgba(0, 255, 255, 0.6);
 }
 
 .thought {
