@@ -15,12 +15,12 @@ height: 100%;
   top: 0;
   font-size: 100%;
   background-color: black;
-/*  overflow: hidden;*/
+ overflow: hidden;
 }
 
 
 * {
- color: #FFF;
+ color: grey;
 }
 
 .visionblock {
@@ -52,14 +52,15 @@ p {
 	text-shadow:  1px 1px 1px #aa0000;
 	font-family: Times New Roman, serif;
 	text-align: center;
-  	font-size: 1.1rem;
+  	font-size: 0.9rem;
 	font-weight: 200;
-	padding-top: 2px;
+	padding: 2px;
 	line-height: 2.0rem;
 	border-radius: 1px;
 	border-width: 1px;
 	border-style: solid;
 	border-color: rgba(0, 255, 255, 0.6);
+	background-color: rgba(255, 255, 255, 0.2);
 }
 
 .thought {
@@ -103,8 +104,8 @@ img.reflect {
 .overlay {
 	position: fixed;
 	text-align: right;
-    top: 100px;
-	right: 60px;
+    top: 60px;
+	right: 15px;
 	z-index: 600;
 }
 
@@ -138,6 +139,6 @@ img.reflect {
 }
 
 .intro{
-	color: #DBDBDB;
+	color: grey;
 
 }
